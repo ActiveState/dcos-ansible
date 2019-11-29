@@ -25,6 +25,12 @@
       args:
         chdir: "{{ path_base_tmp }}/{{ dcos_version_specifier }}/upgrade_from_{{ ansible_local.dcos_installation['version'] }}/"
         executable: "/usr/bin/bash"
+    - name: "Installation: Write mesos-slave-common"
+      copy:
+        dest: /var/lib/dcos/mesos-slave-common
+        content: "{{ agent_config }}"
+        mode: 0755
+      when: agent_config is defined
   always:
     - name: "Upgrade: Output log into journald"
       command: "systemd-cat -t dcos-upgrade"

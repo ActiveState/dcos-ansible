@@ -18,6 +18,12 @@
       register: install_shell_result
       args:
         executable: "/usr/bin/bash"
+    - name: "Installation: Write mesos-slave-common"
+      copy:
+        dest: /var/lib/dcos/mesos-slave-common
+        content: "{{ agent_config }}"
+        mode: 0755
+      when: agent_config is defined
   always:
     - name: "Installation: Output log into journald"
       command: "systemd-cat -t dcos-install"
